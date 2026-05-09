@@ -20,7 +20,7 @@ if ($existingRemote -notcontains $remote) {
 }
 
 git --git-dir=$gitDir --work-tree=$workTree add -f .gitignore
-git --git-dir=$gitDir --work-tree=$workTree add index.html assets push.ps1
+git --git-dir=$gitDir --work-tree=$workTree add app public package.json package-lock.json next.config.mjs tsconfig.json next-env.d.ts README.md push.ps1
 
 $changes = git --git-dir=$gitDir --work-tree=$workTree status --short
 if ($changes) {

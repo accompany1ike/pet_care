@@ -1,0 +1,972 @@
+:root {
+      --ink: #24302f;
+      --muted: #64706d;
+      --mint: #4fb99f;
+      --mint-dark: #247e70;
+      --coral: #ee755f;
+      --amber: #f2b84b;
+      --paper: #fffaf4;
+      --white: #ffffff;
+      --line: #e7ded2;
+      --shadow: 0 18px 45px rgba(36, 48, 47, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 20;
+      background: rgba(255, 250, 244, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(231, 222, 210, 0.85);
+    }
+
+    .nav {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--mint);
+      color: var(--white);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+      color: #42504d;
+      font-size: 15px;
+    }
+
+    .nav-cta,
+    .primary-btn,
+    .secondary-btn {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-radius: 8px;
+      font-weight: 700;
+      line-height: 1;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-cta,
+    .primary-btn {
+      color: var(--white);
+      background: var(--coral);
+      box-shadow: 0 10px 22px rgba(238, 117, 95, 0.28);
+    }
+
+    .nav-cta {
+      padding: 0 16px;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 0 20px;
+    }
+
+    .secondary-btn {
+      color: var(--mint-dark);
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(79, 185, 159, 0.35);
+    }
+
+    .nav-cta:hover,
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      min-height: 86vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      color: var(--white);
+      background: #314744;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(27, 42, 40, 0.82), rgba(27, 42, 40, 0.42) 48%, rgba(27, 42, 40, 0.12)),
+        url("/assets/pet-grooming-hero.png") center right / cover no-repeat;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding-top: 86px;
+      padding-bottom: 56px;
+    }
+
+    .hero-copy {
+      width: min(650px, 100%);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #d8fff2;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 1.04;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      width: min(540px, 100%);
+      margin: 22px 0 30px;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      width: min(620px, 100%);
+      margin-top: 42px;
+    }
+
+    .stat {
+      border-left: 3px solid var(--amber);
+      padding: 4px 0 4px 14px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      display: block;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .wrap {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 28px;
+      margin-bottom: 32px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .section-head p {
+      width: min(420px, 100%);
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .services {
+      background: var(--white);
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .service-card,
+    .price-card,
+    .booking-panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--white);
+    }
+
+    .service-card {
+      padding: 28px;
+      min-height: 254px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .service-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+      color: var(--white);
+      background: var(--mint);
+    }
+
+    .service-card:nth-child(2) .service-icon {
+      background: var(--coral);
+    }
+
+    .service-card:nth-child(3) .service-icon {
+      background: var(--amber);
+      color: #4b3616;
+    }
+
+    .service-card h3,
+    .price-card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    .service-card p,
+    .price-card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .service-card ul {
+      padding: 0;
+      margin: 22px 0 0;
+      list-style: none;
+      color: #41504d;
+      font-size: 15px;
+    }
+
+    .service-card li {
+      padding: 7px 0;
+      border-top: 1px solid #f0e8de;
+    }
+
+    .pricing {
+      background: #f6efe5;
+    }
+
+    .interior {
+      background: #f6efe5;
+      overflow: hidden;
+    }
+
+    .carousel {
+      position: relative;
+      min-height: 560px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      background: #263b38;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      animation: galleryFade 18s infinite;
+    }
+
+    .slide:nth-child(2) {
+      animation-delay: 6s;
+    }
+
+    .slide:nth-child(3) {
+      animation-delay: 12s;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(31, 46, 44, 0.78), rgba(31, 46, 44, 0.18) 58%, rgba(31, 46, 44, 0.06));
+    }
+
+    .slide-copy {
+      position: absolute;
+      z-index: 2;
+      left: clamp(22px, 6vw, 64px);
+      bottom: clamp(22px, 6vw, 58px);
+      width: min(430px, calc(100% - 44px));
+      color: var(--white);
+    }
+
+    .slide-copy span {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #d8fff2;
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .slide-copy h3 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 46px);
+      line-height: 1.12;
+    }
+
+    .slide-copy p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .carousel-dots {
+      position: absolute;
+      z-index: 3;
+      right: clamp(18px, 5vw, 48px);
+      bottom: clamp(18px, 5vw, 46px);
+      display: flex;
+      gap: 9px;
+    }
+
+    .carousel-dots span {
+      width: 36px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.45);
+      animation: dotPulse 18s infinite;
+    }
+
+    .carousel-dots span:nth-child(2) {
+      animation-delay: 6s;
+    }
+
+    .carousel-dots span:nth-child(3) {
+      animation-delay: 12s;
+    }
+
+    @keyframes galleryFade {
+      0%,
+      28% {
+        opacity: 1;
+      }
+
+      34%,
+      94% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes dotPulse {
+      0%,
+      28% {
+        background: var(--amber);
+      }
+
+      34%,
+      94% {
+        background: rgba(255, 255, 255, 0.45);
+      }
+
+      100% {
+        background: var(--amber);
+      }
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .price-card {
+      padding: 24px;
+      box-shadow: 0 12px 28px rgba(36, 48, 47, 0.07);
+    }
+
+    .price-card.featured {
+      background: #263b38;
+      color: var(--white);
+      border-color: #263b38;
+      transform: translateY(-10px);
+    }
+
+    .price-card.featured p,
+    .price-card.featured .price-note {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin: 18px 0 14px;
+      color: var(--coral);
+    }
+
+    .featured .price {
+      color: var(--amber);
+    }
+
+    .price b {
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .price span,
+    .price-note {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .booking {
+      background: var(--white);
+    }
+
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    .booking-copy {
+      padding: 8px 0;
+    }
+
+    .booking-copy h2 {
+      margin: 0 0 18px;
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.12;
+    }
+
+    .booking-copy p {
+      margin: 0 0 28px;
+      color: var(--muted);
+    }
+
+    .process {
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #e3f4ef;
+      color: var(--mint-dark);
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .step span {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .booking-panel {
+      padding: 28px;
+      box-shadow: var(--shadow);
+      background: #fffdf9;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: #41504d;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #d9cfc2;
+      border-radius: 8px;
+      padding: 11px 12px;
+      background: var(--white);
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--mint);
+      box-shadow: 0 0 0 3px rgba(79, 185, 159, 0.18);
+    }
+
+    textarea {
+      min-height: 104px;
+      resize: vertical;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .form-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .submit-btn {
+      min-height: 48px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--mint-dark);
+      color: var(--white);
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .store {
+      background: #f6efe5;
+      color: var(--white);
+    }
+
+    .store-layout {
+      display: grid;
+      grid-template-columns: 0.86fr 1.14fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .store-panel,
+    .store-map-card {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .store-panel {
+      min-height: 430px;
+      padding: clamp(28px, 4vw, 48px);
+      background: #1f2e2c;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .store-panel h2 {
+      margin: 0 0 26px;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .store-list {
+      display: grid;
+      gap: 21px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .store-info-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    .store-info-icon {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      color: #cfe2dd;
+      margin-top: 2px;
+    }
+
+    .store-info-icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .store-info-label {
+      display: block;
+      margin-bottom: 3px;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--white);
+    }
+
+    .store-info-value {
+      display: block;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 17px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .store-map-card {
+      position: relative;
+      min-height: 430px;
+      background: #fbf4df;
+    }
+
+    .store-map {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+      display: block;
+    }
+
+    .store-map text {
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      letter-spacing: 0;
+    }
+
+    .store-map .park {
+      fill: #cfe9b6;
+      stroke: #afd494;
+      stroke-width: 2;
+    }
+
+    .store-map .block {
+      fill: #eef2f5;
+      stroke: #d8e1e7;
+      stroke-width: 2;
+    }
+
+    .store-map .water {
+      fill: #bfe3ec;
+      stroke: #99cad7;
+      stroke-width: 2;
+    }
+
+    .store-map .road {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 20;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .store-map .road-edge {
+      fill: none;
+      stroke: #d9c8a8;
+      stroke-width: 24;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .store-map .minor-road {
+      fill: none;
+      stroke: #ffffff;
+      stroke-width: 10;
+      stroke-linecap: round;
+    }
+
+    .store-map .label {
+      fill: #7c8a8a;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .store-map .poi {
+      fill: #637a9b;
+    }
+
+    .store-map .shop-card {
+      fill: #fff8ee;
+      stroke: #ef9a8b;
+      stroke-width: 2;
+    }
+
+    .store-map .shop-title {
+      fill: #d86066;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .store-map .shop-subtitle {
+      fill: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .store-map .shop-pill {
+      fill: #e56d78;
+    }
+
+    .store-map .pin {
+      fill: #e56d78;
+      stroke: #ffffff;
+      stroke-width: 5;
+    }
+
+    .store-map .pin-paw {
+      fill: #ffffff;
+    }
+
+    .map-note {
+      position: absolute;
+      left: 18px;
+      bottom: 16px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.82);
+      color: #687471;
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    footer {
+      padding: 26px 0;
+      background: #1f2e2c;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 14px;
+    }
+
+    .footer-inner {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    @media (max-width: 920px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: 82vh;
+      }
+
+      .hero::before {
+        background:
+          linear-gradient(90deg, rgba(27, 42, 40, 0.86), rgba(27, 42, 40, 0.58)),
+          url("/assets/pet-grooming-hero.png") center / cover no-repeat;
+      }
+
+      .section-head,
+      .booking-layout {
+        display: block;
+      }
+
+      .carousel {
+        min-height: 480px;
+      }
+
+      .section-head p {
+        margin-top: 12px;
+      }
+
+      .service-grid,
+      .price-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .store-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .store-panel,
+      .store-map,
+      .store-map-card {
+        min-height: 390px;
+      }
+
+      .booking-panel {
+        margin-top: 28px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav {
+        min-height: 62px;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .nav-cta {
+        min-height: 38px;
+        padding: 0 12px;
+        font-size: 14px;
+      }
+
+      .hero {
+        min-height: 88vh;
+      }
+
+      .hero-inner {
+        padding-top: 84px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-stats,
+      .service-grid,
+      .price-grid,
+      form {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 58px 0;
+      }
+
+      .carousel {
+        min-height: 430px;
+      }
+
+      .slide::after {
+        background: linear-gradient(0deg, rgba(31, 46, 44, 0.82), rgba(31, 46, 44, 0.2) 68%);
+      }
+
+      .carousel-dots {
+        right: auto;
+        left: 22px;
+        bottom: 18px;
+      }
+
+      .slide-copy {
+        bottom: 48px;
+      }
+
+      .service-card,
+      .price-card,
+      .booking-panel,
+      .store-panel {
+        padding: 22px;
+      }
+
+      .store-panel,
+      .store-map,
+      .store-map-card {
+        min-height: 360px;
+      }
+
+      .price-card.featured {
+        transform: none;
+      }
+    }
