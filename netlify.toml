@@ -1,0 +1,11 @@
+# Netlify 部署配置。
+#
+# 注意：DATABASE_URL 是密钥，不要写在这个文件里（本文件会提交到 GitHub）。
+# 正确做法是在 Netlify 站点后台配置环境变量：
+#   Site configuration -> Environment variables -> DATABASE_URL
+# 本地开发时放在 .env.local，该文件已被 .gitignore 忽略。
+# 如果这个密钥曾经被提交或分享过，请到 Supabase 后台重置数据库密码。
+
+[build]
+command = "npm run build -- --webpack"
+publish = ".next"
