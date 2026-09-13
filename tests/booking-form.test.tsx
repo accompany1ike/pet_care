@@ -219,3 +219,55 @@ describe('手机端填写体验', () => {
     expect(screen.getByText('期望日期不能早于今天')).toBeTruthy();
   });
 });
+
+describe('提交失败时光标会自动跳到第一处错误', () => {
+  it('空表单提交后，光标落在主人称呼上', () => {
+    render(<BookingSection />);
+    submit();
+    expect(document.activeElement).toBe(screen.getByLabelText(/主人称呼/));
+  });
+
+  it('称呼填好后，光标落到下一个填错的字段（联系电话）', () => {
+    render(<BookingSection />);
+    typeInto(/主人称呼/, '陈女士');
+    submit();
+
+    expect(document.activeElement).toBe(screen.getByLabelText(/联系电话/));
+  });
+
+  it('电话也填对后，光标落到期望日期', () => {
+    render(<BookingSection />);
+    typeInto(/主人称呼/, '陈女士');
+    typeInto(/联系电话/, '13800138000');
+    submit();
+
+    expect(document.activeElement).toBe(screen.getByLabelText(/期望日期/));
+  });
+
+  it('边打字边消除提示时，光标不会被抢走', () => {
+    // 这条是防止有人图省事写成“只要 errors 变了就跳焦点”：
+    // 那样用户在称呼里打字、称呼的错误提示一消失，焦点就会被抢到下一个字段，
+    // 打着打着字就跑到别的格子里去了。
+    render(<BookingSection />);
+    submit();
+    const nameInput = screen.getByLabelText(/主人称呼/);
+    expect(document.activeElement).toBe(nameInput);
+
+    typeInto(/主人称呼/, '陈女士');
+
+    expect(document.activeElement).toBe(nameInput);
+  });
+
+  it('提交成功后不会把光标抢到别的地方', () => {
+    render(<BookingSection />);
+    typeInto(/主人称呼/, '陈女士');
+    typeInto(/联系电话/, '13800138000');
+    typeInto(/期望日期/, tomorrow());
+    submit();
+
+    expect(screen.getByRole('status')).toBeTruthy();
+    // 成功时不需要跳焦点。这个过程里没有任何输入框被聚焦过，
+    // 所以光标应该还老实待在 body 上，而不是被塞进某个输入框。
+    expect(document.activeElement).toBe(document.body);
+  });
+});

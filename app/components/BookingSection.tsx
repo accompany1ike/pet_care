@@ -14,7 +14,7 @@
  * 校验规则可以直接复用 lib/booking.ts，前后端保持一致。
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { BOOKING_SERVICES, PET_TYPES, formatPrice, type PriceEstimate } from '../../lib/pricing';
 import {
@@ -38,6 +38,17 @@ const EMPTY_FORM: BookingFormInput = {
   note: '',
 };
 
+/** 表单字段在页面上的先后顺序，用来确定“第一个填错的字段”是哪一个 */
+const FIELD_ORDER: ReadonlyArray<keyof BookingFormInput> = [
+  'ownerName',
+  'phone',
+  'petType',
+  'service',
+  'date',
+  'timeSlot',
+  'note',
+];
+
 type Confirmed = {
   /** 例如“小型犬 · 基础香波洗护” */
   summary: string;
@@ -47,6 +58,7 @@ type Confirmed = {
 };
 
 export default function BookingSection() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [form, setForm] = useState<BookingFormInput>(EMPTY_FORM);
   const [errors, setErrors] = useState<BookingErrors>({});
   const [confirmed, setConfirmed] = useState<Confirmed | null>(null);
@@ -90,6 +102,7 @@ export default function BookingSection() {
     if (!result.ok) {
       setErrors(result.errors);
       setConfirmed(null);
+      focusFirstInvalidField(result.errors);
       return;
     }
 
@@ -101,6 +114,21 @@ export default function BookingSection() {
       timeSlot: request.timeSlot,
       estimate: request.estimate,
     });
+  }
+
+  /**
+   * 提交失败时，把光标挪到第一个填错的输入框。
+   *
+   * 用键盘填表的人、以及读屏软件用户，不用自己从头找一遍哪一格红了。
+   * 只在“点提交”这一刻挪焦点，平时边打字边消除错误提示不会动焦点，
+   * 否则会把人正在打字的光标抢走。
+   */
+  function focusFirstInvalidField(nextErrors: BookingErrors) {
+    const firstInvalid = FIELD_ORDER.find((field) => nextErrors[field]);
+    if (!firstInvalid) {
+      return;
+    }
+    formRef.current?.querySelector<HTMLElement>(`#booking-${firstInvalid}`)?.focus();
   }
 
   /** 某个字段填错时，在输入框下面补一行红字 */
@@ -156,10 +184,11 @@ export default function BookingSection() {
           </div>
         </div>
         <div className="booking-panel" aria-label="预约表单">
-          <form onSubmit={handleSubmit} noValidate>
+          <form ref={formRef} onSubmit={handleSubmit} noValidate>
             <label>
               主人称呼
               <input
+                id="booking-ownerName"
                 type="text"
                 placeholder="例如：陈女士"
                 autoComplete="name"
@@ -173,6 +202,7 @@ export default function BookingSection() {
             <label>
               联系电话
               <input
+                id="booking-phone"
                 type="tel"
                 placeholder="请输入手机号"
                 inputMode="tel"
@@ -187,6 +217,7 @@ export default function BookingSection() {
             <label>
               宠物类型
               <select
+                id="booking-petType"
                 value={form.petType}
                 onChange={(event) => updateField('petType', event.target.value)}
               >
@@ -201,6 +232,7 @@ export default function BookingSection() {
             <label>
               预约服务
               <select
+                id="booking-service"
                 value={form.service}
                 onChange={(event) => updateField('service', event.target.value)}
               >
@@ -215,6 +247,7 @@ export default function BookingSection() {
             <label>
               期望日期
               <input
+                id="booking-date"
                 type="date"
                 min={dateRange.min}
                 max={dateRange.max}
@@ -228,6 +261,7 @@ export default function BookingSection() {
             <label>
               期望时段
               <select
+                id="booking-timeSlot"
                 value={form.timeSlot}
                 onChange={(event) => updateField('timeSlot', event.target.value)}
               >
@@ -242,6 +276,7 @@ export default function BookingSection() {
             <label className="full">
               备注
               <textarea
+                id="booking-note"
                 placeholder="可填写宠物体重、是否怕吹风、皮肤情况等"
                 value={form.note}
                 onChange={(event) => updateField('note', event.target.value)}
