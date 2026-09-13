@@ -271,3 +271,42 @@ describe('提交失败时光标会自动跳到第一处错误', () => {
     expect(document.activeElement).toBe(document.body);
   });
 });
+
+describe('哪些字段是必填', () => {
+  it('称呼、电话、日期标了 required，读屏软件会念出“必填”', () => {
+    render(<BookingSection />);
+    for (const label of [/主人称呼/, /联系电话/, /期望日期/]) {
+      expect(screen.getByLabelText(label).hasAttribute('required')).toBe(true);
+    }
+  });
+
+  it('备注不是必填', () => {
+    render(<BookingSection />);
+    expect(screen.getByLabelText(/备注/).hasAttribute('required')).toBe(false);
+  });
+
+  it('三个下拉框都有默认值，不需要标必填', () => {
+    render(<BookingSection />);
+    for (const label of [/宠物类型/, /预约服务/, /期望时段/]) {
+      expect(screen.getByLabelText(label).hasAttribute('required')).toBe(false);
+    }
+  });
+
+  it('标签上直接写明必填和选填，用户不用猜', () => {
+    render(<BookingSection />);
+    expect(screen.getByText(/主人称呼（必填）/)).toBeTruthy();
+    expect(screen.getByText(/联系电话（必填）/)).toBeTruthy();
+    expect(screen.getByText(/期望日期（必填）/)).toBeTruthy();
+    expect(screen.getByText(/备注（选填）/)).toBeTruthy();
+  });
+
+  it('标了 required 之后，提示仍然是我们的中文，而不是浏览器自带的英文气泡', () => {
+    // 表单上有 noValidate，所以浏览器原生校验不会弹出来，用户只会看到我们写的中文。
+    // 这条守住这个搭配别被改坏：一旦有人删掉 noValidate，这里就会失败。
+    render(<BookingSection />);
+    submit();
+    expect(screen.getByText('请填写主人称呼')).toBeTruthy();
+    expect(screen.getByText('请填写联系电话')).toBeTruthy();
+    expect(screen.getByText('请选择期望日期')).toBeTruthy();
+  });
+});

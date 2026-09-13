@@ -186,10 +186,11 @@ export default function BookingSection() {
         <div className="booking-panel" aria-label="预约表单">
           <form ref={formRef} onSubmit={handleSubmit} noValidate>
             <label>
-              主人称呼
+              主人称呼（必填）
               <input
                 id="booking-ownerName"
                 type="text"
+                required
                 placeholder="例如：陈女士"
                 autoComplete="name"
                 value={form.ownerName}
@@ -200,10 +201,11 @@ export default function BookingSection() {
               {renderFieldError('ownerName')}
             </label>
             <label>
-              联系电话
+              联系电话（必填）
               <input
                 id="booking-phone"
                 type="tel"
+                required
                 placeholder="请输入手机号"
                 inputMode="tel"
                 autoComplete="tel"
@@ -245,10 +247,11 @@ export default function BookingSection() {
               {renderFieldError('service')}
             </label>
             <label>
-              期望日期
+              期望日期（必填）
               <input
                 id="booking-date"
                 type="date"
+                required
                 min={dateRange.min}
                 max={dateRange.max}
                 value={form.date}
@@ -274,7 +277,7 @@ export default function BookingSection() {
               {renderFieldError('timeSlot')}
             </label>
             <label className="full">
-              备注
+              备注（选填）
               <textarea
                 id="booking-note"
                 placeholder="可填写宠物体重、是否怕吹风、皮肤情况等"
