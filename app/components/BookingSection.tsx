@@ -14,12 +14,15 @@
  * 校验规则可以直接复用 lib/booking.ts，前后端保持一致。
  */
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { BOOKING_SERVICES, PET_TYPES, formatPrice, type PriceEstimate } from '../../lib/pricing';
 import {
+  BOOKING_WINDOW_DAYS,
   TIME_SLOTS,
+  addDays,
   buildBookingRequest,
+  toDateKey,
   type BookingErrors,
   type BookingFormInput,
 } from '../../lib/booking';
@@ -47,6 +50,24 @@ export default function BookingSection() {
   const [form, setForm] = useState<BookingFormInput>(EMPTY_FORM);
   const [errors, setErrors] = useState<BookingErrors>({});
   const [confirmed, setConfirmed] = useState<Confirmed | null>(null);
+
+  /**
+   * 日期框的可选范围：最早今天，最晚 60 天后。
+   *
+   * 故意留到挂载之后才算。页面是静态预渲染的，如果渲染时就把日期写死，
+   * 服务器构建那天的日期会和用户打开页面那天不一样，React 会报 hydration 不一致。
+   * 挂载后再设置就避开了这个问题；在算出来之前不加限制也没关系，
+   * 反正提交时 lib/booking.ts 还会再校验一遍日期。
+   */
+  const [dateRange, setDateRange] = useState<{ min?: string; max?: string }>({});
+
+  useEffect(() => {
+    const today = new Date();
+    setDateRange({
+      min: toDateKey(today),
+      max: toDateKey(addDays(today, BOOKING_WINDOW_DAYS)),
+    });
+  }, []);
 
   /** 改哪个字段就更新哪个字段，同时把该字段的旧错误提示消掉 */
   function updateField(field: keyof BookingFormInput, value: string) {
@@ -141,6 +162,7 @@ export default function BookingSection() {
               <input
                 type="text"
                 placeholder="例如：陈女士"
+                autoComplete="name"
                 value={form.ownerName}
                 onChange={(event) => updateField('ownerName', event.target.value)}
                 aria-invalid={errors.ownerName ? true : undefined}
@@ -153,6 +175,8 @@ export default function BookingSection() {
               <input
                 type="tel"
                 placeholder="请输入手机号"
+                inputMode="tel"
+                autoComplete="tel"
                 value={form.phone}
                 onChange={(event) => updateField('phone', event.target.value)}
                 aria-invalid={errors.phone ? true : undefined}
@@ -192,6 +216,8 @@ export default function BookingSection() {
               期望日期
               <input
                 type="date"
+                min={dateRange.min}
+                max={dateRange.max}
                 value={form.date}
                 onChange={(event) => updateField('date', event.target.value)}
                 aria-invalid={errors.date ? true : undefined}

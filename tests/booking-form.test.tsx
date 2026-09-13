@@ -14,7 +14,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import BookingSection from '../app/components/BookingSection';
-import { addDays, toDateKey } from '../lib/booking';
+import { addDays, toDateKey, BOOKING_WINDOW_DAYS } from '../lib/booking';
 
 // 每个用例跑完把渲染出来的 DOM 清掉，避免互相干扰
 afterEach(cleanup);
@@ -186,5 +186,36 @@ describe('填对了会给出参考价', () => {
     const status = screen.getByRole('status').textContent ?? '';
     expect(status).toContain(tomorrow());
     expect(status).toContain('10:00 - 12:00');
+  });
+});
+
+describe('手机端填写体验', () => {
+  it('电话框会唤起数字键盘，并支持浏览器自动填充', () => {
+    render(<BookingSection />);
+    const phone = screen.getByLabelText(/联系电话/);
+    expect(phone.getAttribute('inputmode')).toBe('tel');
+    expect(phone.getAttribute('autocomplete')).toBe('tel');
+  });
+
+  it('称呼框支持浏览器自动填充', () => {
+    render(<BookingSection />);
+    expect(screen.getByLabelText(/主人称呼/).getAttribute('autocomplete')).toBe('name');
+  });
+
+  it('日期框挂载后把可选范围限制在预约窗口内，点不出过去的日期', () => {
+    render(<BookingSection />);
+    const dateInput = screen.getByLabelText(/期望日期/);
+    expect(dateInput.getAttribute('min')).toBe(toDateKey(new Date()));
+    expect(dateInput.getAttribute('max')).toBe(
+      toDateKey(addDays(new Date(), BOOKING_WINDOW_DAYS)),
+    );
+  });
+
+  it('日期框的限制只是帮用户少走弯路，手动绕过它乱填仍然会被拦下', () => {
+    // 用户可以直接在输入框里手打日期，所以校验逻辑不能因为有了 min/max 就省掉
+    render(<BookingSection />);
+    typeInto(/期望日期/, yesterday());
+    submit();
+    expect(screen.getByText('期望日期不能早于今天')).toBeTruthy();
   });
 });

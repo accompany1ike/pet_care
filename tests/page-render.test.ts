@@ -188,6 +188,16 @@ describe('预约表单', () => {
   it('页面上说明了提交时会先在本地检查', () => {
     expect(form?.text).toContain('本地检查');
   });
+
+  it('日期框在服务端渲染时不写死 min/max，避免和浏览器算出的日期打架', () => {
+    // 页面是静态预渲染的：如果构建那天就把日期写进 HTML，
+    // 用户过几天再打开时浏览器算出的日期会不一样，React 会报 hydration 不一致。
+    // 所以这两个属性要等组件挂载后再补上，服务端渲染结果里应该是空的。
+    const dateInput = root.querySelector('form input[type="date"]');
+    expect(dateInput).not.toBeNull();
+    expect(dateInput?.hasAttribute('min')).toBe(false);
+    expect(dateInput?.hasAttribute('max')).toBe(false);
+  });
 });
 
 describe('价目区', () => {
