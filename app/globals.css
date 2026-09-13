@@ -614,6 +614,32 @@
       font-size: 13px;
     }
 
+    /* 填错时输入框下面那行小字：颜色偏红，让人一眼看出这是“出错提示”而不是普通说明 */
+    .field-error {
+      color: #b4442f;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* 填错的输入框本身也描一圈红边，这样不用读字就知道哪一格有问题 */
+    input[aria-invalid="true"],
+    select[aria-invalid="true"],
+    textarea[aria-invalid="true"] {
+      border-color: #d9705a;
+      box-shadow: 0 0 0 3px rgba(217, 112, 90, 0.16);
+    }
+
+    /* 提交成功后的浅绿提示条：和门店主色的绿系呼应，表示“没问题了” */
+    .form-success {
+      margin: 0;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #e3f4ef;
+      color: var(--mint-dark);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
     .submit-btn {
       min-height: 48px;
       border: 0;

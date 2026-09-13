@@ -1,5 +1,19 @@
-const pageHtml = `<header class="site-header">
-    <nav class="nav" aria-label="主导航">
+import BookingSection from './components/BookingSection';
+
+/**
+ * 首页
+ *
+ * 原来整页是一大段 HTML 字符串，用 dangerouslySetInnerHTML 一次性塞进去。
+ * 那段写法有个硬伤：字符串中间没法插入真正的 React 组件，
+ * 所以预约表单永远只能是静态的，点了没反应。
+ *
+ * 现在的做法是把整页按“区块”拆开：纯展示的区块仍然保留原来的 HTML 字符串
+ * （暂时不动，改起来风险最小），只有需要交互的预约区换成了 React 组件。
+ * 每个区块用自己真实的标签渲染（<section className="pricing"> 这样），
+ * 字符串里只放区块内部的内容，所以页面结构和拆分前完全一样，CSS 不用改。
+ */
+
+const headerHtml = `<nav class="nav" aria-label="主导航">
       <a class="brand" href="#top" aria-label="泡泡爪宠物洗护店首页">
         <span class="brand-mark">爪</span>
         <span>泡泡爪宠物洗护</span>
@@ -12,12 +26,9 @@ const pageHtml = `<header class="site-header">
         <a href="#store">门店信息</a>
       </div>
       <a class="nav-cta" href="#booking">立即预约</a>
-    </nav>
-  </header>
+    </nav>`;
 
-  <main id="top">
-    <section class="hero" aria-label="宠物洗护店介绍">
-      <div class="hero-inner">
+const heroHtml = `<div class="hero-inner">
         <div class="hero-copy">
           <p class="eyebrow">预约制精品洗护 · 猫狗分区护理</p>
           <h1>泡泡爪宠物洗护店</h1>
@@ -41,11 +52,9 @@ const pageHtml = `<header class="site-header">
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </div>`;
 
-    <section class="services" id="services">
-      <div class="wrap">
+const servicesHtml = `<div class="wrap">
         <div class="section-head">
           <h2>适合日常到店的洗护项目</h2>
           <p>每次服务前都会确认宠物年龄、皮肤状态和性格习惯，再安排更合适的水温、吹干方式与护理节奏。</p>
@@ -94,11 +103,9 @@ const pageHtml = `<header class="site-header">
             </ul>
           </article>
         </div>
-      </div>
-    </section>
+      </div>`;
 
-    <section class="interior" id="interior">
-      <div class="wrap">
+const interiorHtml = `<div class="wrap">
         <div class="section-head">
           <h2>中国高端宠物洗护店内环境</h2>
           <p>接待、洗护、造型三个区域分区清晰，以温润木色、玉石绿和金属细节营造安静、干净、可信赖的到店体验。</p>
@@ -134,11 +141,9 @@ const pageHtml = `<header class="site-header">
             <span></span>
           </div>
         </div>
-      </div>
-    </section>
+      </div>`;
 
-    <section class="pricing" id="pricing">
-      <div class="wrap">
+const pricingHtml = `<div class="wrap">
         <div class="section-head">
           <h2>清晰的套餐价格</h2>
           <p>价格会根据体型、毛量、打结程度和宠物配合度微调，到店前可先发送照片评估。</p>
@@ -169,83 +174,9 @@ const pageHtml = `<header class="site-header">
             <div class="price-note">可单独到店处理</div>
           </article>
         </div>
-      </div>
-    </section>
+      </div>`;
 
-    <section class="booking" id="booking">
-      <div class="wrap booking-layout">
-        <div class="booking-copy">
-          <h2>提前预约，减少等待和应激</h2>
-          <p>预约后我们会预留洗护位和护理师，并根据宠物情况准备合适的用品。表单为页面演示，可按你的真实联系方式继续接入提交功能。</p>
-          <div class="process">
-            <div class="step">
-              <div class="step-number">01</div>
-              <div><strong>提交宠物信息</strong><span>填写品种、体重、服务类型和希望到店时间。</span></div>
-            </div>
-            <div class="step">
-              <div class="step-number">02</div>
-              <div><strong>门店确认档期</strong><span>工作人员确认价格、时长和注意事项。</span></div>
-            </div>
-            <div class="step">
-              <div class="step-number">03</div>
-              <div><strong>到店安心洗护</strong><span>护理完成后反馈皮肤、耳朵、指甲和毛发状态。</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="booking-panel" aria-label="预约表单">
-          <form>
-            <label>
-              主人称呼
-              <input type="text" placeholder="例如：陈女士" />
-            </label>
-            <label>
-              联系电话
-              <input type="tel" placeholder="请输入手机号" />
-            </label>
-            <label>
-              宠物类型
-              <select>
-                <option>小型犬</option>
-                <option>中大型犬</option>
-                <option>猫咪</option>
-                <option>其他宠物</option>
-              </select>
-            </label>
-            <label>
-              预约服务
-              <select>
-                <option>基础香波洗护</option>
-                <option>造型美容修剪</option>
-                <option>皮毛舒缓护理</option>
-                <option>局部护理</option>
-              </select>
-            </label>
-            <label>
-              期望日期
-              <input type="date" />
-            </label>
-            <label>
-              期望时段
-              <select>
-                <option>10:00 - 12:00</option>
-                <option>13:00 - 15:00</option>
-                <option>15:00 - 17:00</option>
-                <option>17:00 - 19:00</option>
-              </select>
-            </label>
-            <label class="full">
-              备注
-              <textarea placeholder="可填写宠物体重、是否怕吹风、皮肤情况等"></textarea>
-            </label>
-            <p class="form-note full">提交按钮当前为静态演示，不会上传个人信息。</p>
-            <button class="submit-btn full" type="button">提交预约意向</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <section class="store" id="store">
-      <div class="wrap">
+const storeHtml = `<div class="wrap">
         <div class="store-layout">
           <div class="store-panel">
             <h2>门店信息</h2>
@@ -348,17 +279,42 @@ const pageHtml = `<header class="site-header">
             <span class="map-note">示意地图，不代表真实比例</span>
           </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </div>`;
 
-  <footer>
-    <div class="footer-inner">
+const footerHtml = `<div class="footer-inner">
       <span>© 2026 泡泡爪宠物洗护店</span>
       <span>温柔洗护 · 透明报价 · 预约优先</span>
-    </div>
-  </footer>`;
+    </div>`;
 
 export default function Home() {
-  return <div dangerouslySetInnerHTML={{ __html: pageHtml }} />;
+  return (
+    <>
+      <header className="site-header" dangerouslySetInnerHTML={{ __html: headerHtml }} />
+      <main id="top">
+        <section
+          className="hero"
+          aria-label="宠物洗护店介绍"
+          dangerouslySetInnerHTML={{ __html: heroHtml }}
+        />
+        <section
+          className="services"
+          id="services"
+          dangerouslySetInnerHTML={{ __html: servicesHtml }}
+        />
+        <section
+          className="interior"
+          id="interior"
+          dangerouslySetInnerHTML={{ __html: interiorHtml }}
+        />
+        <section
+          className="pricing"
+          id="pricing"
+          dangerouslySetInnerHTML={{ __html: pricingHtml }}
+        />
+        <BookingSection />
+        <section className="store" id="store" dangerouslySetInnerHTML={{ __html: storeHtml }} />
+      </main>
+      <footer dangerouslySetInnerHTML={{ __html: footerHtml }} />
+    </>
+  );
 }

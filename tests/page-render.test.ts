@@ -166,13 +166,27 @@ describe('预约表单', () => {
     ]);
   });
 
-  it('提交按钮是 type="button"，当前不会误把数据提交出去', () => {
+  it('提交按钮是 type="submit"，交给表单自己的校验处理', () => {
     const button = root.querySelector('form button');
-    expect(button?.getAttribute('type')).toBe('button');
+    expect(button?.getAttribute('type')).toBe('submit');
+  });
+
+  it('关掉了浏览器自带的校验，统一用我们自己的中文提示', () => {
+    // 浏览器原生的提示是英文的、样式也改不了，所以用 noValidate 关掉
+    expect(form?.outerHTML.toLowerCase()).toContain('novalidate');
+  });
+
+  it('刚打开页面时没有任何错误提示', () => {
+    expect(root.querySelectorAll('.field-error')).toHaveLength(0);
+    expect(root.querySelector('.form-success')).toBeNull();
   });
 
   it('页面上明确写了表单是演示、不会上传个人信息', () => {
     expect(form?.text).toContain('不会上传个人信息');
+  });
+
+  it('页面上说明了提交时会先在本地检查', () => {
+    expect(form?.text).toContain('本地检查');
   });
 });
 
